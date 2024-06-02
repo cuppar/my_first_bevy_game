@@ -83,8 +83,8 @@ fn initialized(state: Res<State>) -> bool {
 
 const FONT_SIZE: f32 = 20.0;
 const FONT_COLOR: Color = Color::rgb(0.2, 0.2, 0.2);
-const FONT_BOLD: &str = "fonts/FiraSans-Bold.ttf";
-const FONT_MEDIUM: &str = "fonts/FiraMono-Medium.ttf";
+const FONT_BOLD: &str = "fonts/FiraSans-Bold.ttf(no_load)";
+const FONT_MEDIUM: &str = "fonts/FiraMono-Medium.ttf(no_load)";
 
 #[derive(Component)]
 struct SteppingUi;

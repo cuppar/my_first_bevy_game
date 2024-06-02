@@ -1,11 +1,10 @@
-use crate::state::GameState::{self, GameInit, Loading};
 use bevy::prelude::*;
 
 const SPRITE_SHEET_PATH: &str = "sheet.png";
 const SPRITE_SHEET_W: usize = 32;
 const SPRITE_SHEET_H: usize = 32;
-const TILE_W: usize = 24;
-const TILE_H: usize = 24;
+const TILE_W: usize = 16;
+const TILE_H: usize = 32;
 
 #[derive(Resource, Default)]
 pub struct SpriteSheet {
@@ -16,16 +15,14 @@ pub struct SpriteSheet {
 pub struct ResourcePlugin;
 impl Plugin for ResourcePlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<SpriteSheet>()
-            .add_systems(OnEnter(Loading), load_assets);
+        app.init_resource::<SpriteSheet>();
     }
 }
 
-pub fn load_assets(
+pub fn load_sprite_sheet(
     asset_server: Res<AssetServer>,
     mut sprite_sheet: ResMut<SpriteSheet>,
     mut texture_atlas_layout: ResMut<Assets<TextureAtlasLayout>>,
-    mut next_state: ResMut<NextState<GameState>>,
 ) {
     sprite_sheet.texture = Some(asset_server.load(SPRITE_SHEET_PATH));
     let layout = TextureAtlasLayout::from_grid(
@@ -36,5 +33,4 @@ pub fn load_assets(
         None,
     );
     sprite_sheet.layout = Some(texture_atlas_layout.add(layout));
-    next_state.set(GameInit);
 }

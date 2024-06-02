@@ -1,7 +1,8 @@
-use crate::stepping::SteppingPlugin;
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::window::close_on_esc;
+
+use crate::stepping::SteppingPlugin;
 
 const WW: f32 = 1200.0;
 const WH: f32 = 900.0;
