@@ -74,9 +74,9 @@ fn gun_follow_player(
     }
 
     let player_pos = player_query.single().translation.xy();
+    let gun_direction = gun_transform.local_y().xy().normalize();
 
-    let new_gun_pos =
-        player_pos + POS_OFFSET + gun_transform.local_y().xy().normalize() * DISTANCE_OFFSET;
+    let new_gun_pos = player_pos + POS_OFFSET + gun_direction * DISTANCE_OFFSET;
 
     gun_transform.translation = new_gun_pos.extend(gun_transform.translation.z);
 }
