@@ -25,7 +25,7 @@ impl Plugin for GameStatePlugin {
                 OnEnter(GameInit),
                 (
                     player::spawn_player,
-                    player::spawn_player_gun,
+                    player::gun::spawn_gun,
                     transition_to_next_state,
                 )
                     .chain(),
