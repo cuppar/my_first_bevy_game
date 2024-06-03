@@ -69,8 +69,6 @@ fn gun_follow_player(
     if gun_to_cursor.length() > 0. {
         gun_transform.rotation =
             Quat::from_rotation_arc(Vec3::Y, gun_to_cursor.extend(0.).normalize());
-    } else {
-        gun_transform.rotation = Quat::default();
     }
 
     let player_pos = player_query.single().translation.xy();
