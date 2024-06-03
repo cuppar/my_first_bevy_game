@@ -17,14 +17,12 @@ pub struct Velocity {
 
 impl Velocity {
     fn value(&self) -> Vec2 {
-        self.direction * self.speed
+        self.direction.normalize_or_zero() * self.speed
     }
 }
 
 fn movement(time: Res<Time>, mut query: Query<(&Velocity, &mut Transform)>) {
     for (velocity, mut transform) in query.iter_mut() {
         transform.translation += velocity.value().extend(0.) * time.delta_seconds();
-        // info!("Velocity: {:?}", velocity);
-        // info!("Transform: {:?}", transform);
     }
 }

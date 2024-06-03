@@ -8,7 +8,7 @@ use crate::state::GameState::InGame;
 pub mod gun;
 
 const PLAYER_MOVE_SPEED: f32 = 200.;
-const Z_INDEX: usize = 10;
+const Z_INDEX: f32 = 10.;
 
 pub struct PlayerPlugin;
 
@@ -33,7 +33,7 @@ pub fn spawn_player(mut commands: Commands, sprite_sheet: Res<SpriteSheet>) {
                 index: 0,
             },
             transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
-                .with_translation(Vec2::ZERO.extend(Z_INDEX as f32)),
+                .with_translation(Vec2::ZERO.extend(Z_INDEX)),
             ..default()
         },
         Velocity {

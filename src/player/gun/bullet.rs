@@ -1,11 +1,14 @@
 use bevy::prelude::*;
 use std::time::Duration;
 
+use crate::movement::Velocity;
 use crate::player::gun::{BulletReloadTimer, Gun};
 use crate::prelude::*;
 use crate::state::GameState::InGame;
 
-const Z_INDEX: usize = 11;
+const Z_INDEX: f32 = 11.;
+const OFFSET: f32 = 30.;
+const SPEED: f32 = 300.;
 
 pub struct BulletPlugin;
 
@@ -14,7 +17,6 @@ impl Plugin for BulletPlugin {
         app.add_systems(Update, handle_bullet_input.run_if(in_state(InGame)));
     }
 }
-
 #[derive(Component)]
 pub struct Bullet;
 
@@ -41,6 +43,11 @@ pub fn handle_bullet_input(
     }
 
     bullet_reload_timer.reset();
+
+    let mut pos = gun_transform.translation.xy();
+    let direction = gun_transform.local_y().xy().normalize();
+    pos += direction * OFFSET;
+
     commands.spawn((
         SpriteSheetBundle {
             texture: sprite_sheet.texture.clone().unwrap(),
@@ -49,9 +56,13 @@ pub fn handle_bullet_input(
                 index: 2,
             },
             transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
-                .with_translation(gun_transform.translation.xy().extend(Z_INDEX as f32))
+                .with_translation(pos.extend(Z_INDEX))
                 .with_rotation(gun_transform.rotation),
             ..default()
+        },
+        Velocity {
+            direction,
+            speed: SPEED,
         },
         Bullet,
     ));

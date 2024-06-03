@@ -10,10 +10,10 @@ use crate::state::GameState::InGame;
 
 mod bullet;
 
-const Z_INDEX: usize = 20;
+const Z_INDEX: f32 = 20.;
 const DISTANCE_OFFSET: f32 = 20.;
 const POS_OFFSET: Vec2 = vec2(0., -20.);
-const BULLET_RELOAD_TIME: f32 = 0.1;
+const BULLET_RELOAD_TIME: f32 = 0.07;
 
 pub struct GunPlugin;
 
@@ -39,7 +39,7 @@ pub fn spawn_gun(mut commands: Commands, sprite_sheet: Res<SpriteSheet>) {
                 index: 1,
             },
             transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
-                .with_translation(Vec2::ZERO.extend(Z_INDEX as f32)),
+                .with_translation(Vec2::ZERO.extend(Z_INDEX)),
             ..default()
         },
         BulletReloadTimer(Timer::new(
