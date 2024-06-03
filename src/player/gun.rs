@@ -11,8 +11,8 @@ use crate::state::GameState::InGame;
 mod bullet;
 
 const Z_INDEX: f32 = 20.;
-const DISTANCE_OFFSET: f32 = 20.;
-const POS_OFFSET: Vec2 = vec2(0., -20.);
+const ROTATION_RADIANS: f32 = 20.;
+const ORIGIN_OFFSET_TO_PLAYER: Vec2 = vec2(0., -20.);
 const BULLET_RELOAD_TIME: f32 = 0.07;
 
 pub struct GunPlugin;
@@ -60,10 +60,10 @@ fn gun_follow_player(
     }
 
     let mut gun_transform = gun_query.single_mut();
-    let gun_pos = gun_transform.translation.xy();
+    let player_pos = player_query.single().translation.xy();
 
-    let cursor_pos = cursor_position.unwrap_or(gun_pos);
-    let gun_to_cursor = cursor_pos - gun_pos;
+    let gun_origin = player_pos + ORIGIN_OFFSET_TO_PLAYER;
+    let gun_to_cursor = cursor_position.unwrap_or(gun_origin) - gun_origin;
 
     // 3d absolute
     if gun_to_cursor.length() > 0. {
@@ -71,10 +71,9 @@ fn gun_follow_player(
             Quat::from_rotation_arc(Vec3::Y, gun_to_cursor.extend(0.).normalize());
     }
 
-    let player_pos = player_query.single().translation.xy();
     let gun_direction = gun_transform.local_y().xy().normalize();
 
-    let new_gun_pos = player_pos + POS_OFFSET + gun_direction * DISTANCE_OFFSET;
+    let new_gun_pos = gun_origin + gun_direction * ROTATION_RADIANS;
 
     gun_transform.translation = new_gun_pos.extend(gun_transform.translation.z);
 }
