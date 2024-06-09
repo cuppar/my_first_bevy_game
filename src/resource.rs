@@ -5,7 +5,7 @@ use crate::state::GameState::InGame;
 
 const SPRITE_SHEET_PATH: &str = "sheet.png";
 const SPRITE_SHEET_W: usize = 4;
-const SPRITE_SHEET_H: usize = 1;
+const SPRITE_SHEET_H: usize = 2;
 const TILE_W: usize = 16;
 const TILE_H: usize = 16;
 
