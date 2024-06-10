@@ -3,6 +3,7 @@ pub mod prelude;
 
 pub mod camera;
 pub mod config;
+pub mod enemy;
 pub mod movement;
 pub mod player;
 pub mod resource;

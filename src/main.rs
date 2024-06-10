@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use my_first_bevy_game::camera::CameraPlugin;
+use my_first_bevy_game::enemy::EnemyPlugin;
 use my_first_bevy_game::movement::MovementPlugin;
 use my_first_bevy_game::player::PlayerPlugin;
 use my_first_bevy_game::resource::ResourcePlugin;
@@ -15,5 +16,6 @@ fn main() {
         .add_plugins(PlayerPlugin)
         .add_plugins(CameraPlugin)
         .add_plugins(MovementPlugin)
+        .add_plugins(EnemyPlugin)
         .run();
 }

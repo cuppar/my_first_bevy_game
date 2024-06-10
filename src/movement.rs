@@ -9,7 +9,7 @@ impl Plugin for MovementPlugin {
     }
 }
 
-#[derive(Component, Debug)]
+#[derive(Component, Debug, Default)]
 pub struct Velocity {
     pub direction: Vec2,
     pub speed: f32,
