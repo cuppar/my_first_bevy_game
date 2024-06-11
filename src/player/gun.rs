@@ -19,8 +19,10 @@ pub struct GunPlugin;
 
 impl Plugin for GunPlugin {
     fn build(&self, app: &mut App) {
-        app.add_plugins(BulletPlugin)
-            .add_systems(Update, gun_follow_player.run_if(in_state(InGame)));
+        app.add_plugins(BulletPlugin).add_systems(
+            Update,
+            (gun_follow_player, flip_gun).run_if(in_state(InGame)),
+        );
     }
 }
 
@@ -48,6 +50,15 @@ pub fn spawn_gun(mut commands: Commands, sprite_sheet: Res<SpriteSheet>) {
         )),
         Gun,
     ));
+}
+fn flip_gun(mut q_gun: Query<(&mut Sprite, &Transform), With<Gun>>, cursor: Res<CursorPosition>) {
+    if q_gun.is_empty() {
+        return;
+    }
+    let (mut sprite, transform) = q_gun.single_mut();
+    if let Some(cursor) = cursor.0 {
+        sprite.flip_x = cursor.x < transform.translation.x;
+    }
 }
 
 fn gun_follow_player(

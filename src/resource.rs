@@ -16,7 +16,7 @@ pub struct SpriteSheet {
 }
 
 #[derive(Resource, Default, Deref, DerefMut, Debug)]
-pub struct CursorPosition(Option<Vec2>);
+pub struct CursorPosition(pub Option<Vec2>);
 
 pub struct ResourcePlugin;
 impl Plugin for ResourcePlugin {

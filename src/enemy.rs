@@ -1,8 +1,9 @@
+use std::time::Duration;
+
 use bevy::math::vec2;
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
 use rand::{thread_rng, Rng};
-use std::time::Duration;
 
 use crate::movement::Velocity;
 use crate::player::Player;
@@ -24,6 +25,7 @@ impl Plugin for EnemyPlugin {
             (
                 spawn_enemy.run_if(on_timer(Duration::from_secs_f32(SPAWN_PERIOD))),
                 follow_player,
+                flip_enemy,
             )
                 .run_if(in_state(InGame)),
         );
@@ -79,5 +81,17 @@ fn spawn_enemy(
             },
             Enemy,
         ));
+    }
+}
+fn flip_enemy(
+    mut q_enemy: Query<(&mut Sprite, &Transform), With<Enemy>>,
+    q_player: Query<&Transform, (With<Player>, Without<Enemy>)>,
+) {
+    if q_enemy.is_empty() || q_player.is_empty() {
+        return;
+    }
+    let player_pos = q_player.single().translation.xy();
+    for (mut sprite, enemy_transform) in &mut q_enemy {
+        sprite.flip_x = player_pos.x < enemy_transform.translation.x;
     }
 }

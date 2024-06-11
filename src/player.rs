@@ -3,6 +3,7 @@ use bevy::prelude::*;
 use crate::movement::Velocity;
 use crate::player::gun::GunPlugin;
 use crate::prelude::*;
+use crate::resource::CursorPosition;
 use crate::state::GameState::InGame;
 
 pub mod gun;
@@ -16,7 +17,7 @@ impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(GunPlugin).add_systems(
             Update,
-            handle_player_movement_input.run_if(in_state(InGame)),
+            (handle_player_movement_input, flip_player).run_if(in_state(InGame)),
         );
     }
 }
@@ -42,6 +43,19 @@ pub fn spawn_player(mut commands: Commands, sprite_sheet: Res<SpriteSheet>) {
         },
         Player,
     ));
+}
+
+fn flip_player(
+    mut q_player: Query<(&mut Sprite, &Transform), With<Player>>,
+    cursor: Res<CursorPosition>,
+) {
+    if q_player.is_empty() {
+        return;
+    }
+    let (mut sprite, transform) = q_player.single_mut();
+    if let Some(cursor) = cursor.0 {
+        sprite.flip_x = cursor.x < transform.translation.x;
+    }
 }
 
 fn handle_player_movement_input(
