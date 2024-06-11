@@ -1,10 +1,10 @@
-use std::time::Duration;
-
 use bevy::math::vec2;
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
 use rand::{thread_rng, Rng};
+use std::time::Duration;
 
+use crate::animation::{AnimationIndices, AnimationTimer};
 use crate::movement::Velocity;
 use crate::player::Player;
 use crate::prelude::*;
@@ -45,7 +45,7 @@ fn follow_player(
 
     let player_pos = q_player.single().translation.xy();
     for (transform, mut velocity) in &mut q_enemy {
-        velocity.direction = (player_pos - transform.translation.xy()).normalize_or_zero();
+        *velocity = Velocity((player_pos - transform.translation.xy()).normalize_or_zero() * SPEED);
     }
 }
 
@@ -75,14 +75,14 @@ fn spawn_enemy(
                     .with_translation(vec2(x, y).extend(Z_INDEX)),
                 ..default()
             },
-            Velocity {
-                speed: SPEED,
-                ..default()
-            },
+            Velocity::default(),
+            AnimationIndices::new(4, 7),
+            AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
             Enemy,
         ));
     }
 }
+
 fn flip_enemy(
     mut q_enemy: Query<(&mut Sprite, &Transform), With<Enemy>>,
     q_player: Query<&Transform, (With<Player>, Without<Enemy>)>,

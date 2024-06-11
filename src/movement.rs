@@ -9,20 +9,11 @@ impl Plugin for MovementPlugin {
     }
 }
 
-#[derive(Component, Debug, Default)]
-pub struct Velocity {
-    pub direction: Vec2,
-    pub speed: f32,
-}
-
-impl Velocity {
-    fn value(&self) -> Vec2 {
-        self.direction.normalize_or_zero() * self.speed
-    }
-}
+#[derive(Component, Debug, Default, Deref, DerefMut)]
+pub struct Velocity(pub Vec2);
 
 fn movement(time: Res<Time>, mut query: Query<(&Velocity, &mut Transform)>) {
     for (velocity, mut transform) in query.iter_mut() {
-        transform.translation += velocity.value().extend(0.) * time.delta_seconds();
+        transform.translation += velocity.extend(0.) * time.delta_seconds();
     }
 }

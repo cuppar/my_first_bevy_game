@@ -60,10 +60,7 @@ pub fn handle_bullet_input(
                 .with_rotation(gun_transform.rotation),
             ..default()
         },
-        Velocity {
-            direction,
-            speed: SPEED,
-        },
+        Velocity(direction * SPEED),
         Bullet,
     ));
 }

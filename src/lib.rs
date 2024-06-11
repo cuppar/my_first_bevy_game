@@ -1,6 +1,7 @@
 // preludes
 pub mod prelude;
 
+pub mod animation;
 pub mod camera;
 pub mod config;
 pub mod enemy;

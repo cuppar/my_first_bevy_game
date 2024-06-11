@@ -37,7 +37,7 @@ impl Plugin for GameStatePlugin {
 fn log_transitions(mut transitions: EventReader<StateTransitionEvent<GameState>>) {
     for transition in transitions.read() {
         info!(
-            "transition: {:?} => {:?}",
+            "GameState: {:?} => {:?}",
             transition.before, transition.after
         );
     }
