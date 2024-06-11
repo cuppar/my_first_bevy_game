@@ -53,7 +53,7 @@ pub fn handle_bullet_input(
             texture: sprite_sheet.texture.clone().unwrap(),
             atlas: TextureAtlas {
                 layout: sprite_sheet.layout.clone().unwrap(),
-                index: 2,
+                index: 14,
             },
             transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
                 .with_translation(pos.extend(Z_INDEX))

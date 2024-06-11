@@ -69,7 +69,7 @@ fn spawn_enemy(
                 texture: sprite_sheet.texture.clone().unwrap(),
                 atlas: TextureAtlas {
                     layout: sprite_sheet.layout.clone().unwrap(),
-                    index: 3,
+                    index: 4,
                 },
                 transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
                     .with_translation(vec2(x, y).extend(Z_INDEX)),

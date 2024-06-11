@@ -11,8 +11,8 @@ use crate::state::GameState::InGame;
 mod bullet;
 
 const Z_INDEX: f32 = 20.;
-const ROTATION_RADIANS: f32 = 20.;
-const ORIGIN_OFFSET_TO_PLAYER: Vec2 = vec2(0., -20.);
+const ROTATION_RADIANS: f32 = 50.;
+const ORIGIN_OFFSET_TO_PLAYER: Vec2 = vec2(0., -35.);
 const BULLET_RELOAD_TIME: f32 = 0.07;
 
 pub struct GunPlugin;
@@ -38,7 +38,7 @@ pub fn spawn_gun(mut commands: Commands, sprite_sheet: Res<SpriteSheet>) {
             texture: sprite_sheet.texture.clone().unwrap(),
             atlas: TextureAtlas {
                 layout: sprite_sheet.layout.clone().unwrap(),
-                index: 1,
+                index: 13,
             },
             transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
                 .with_translation(Vec2::ZERO.extend(Z_INDEX)),

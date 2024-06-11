@@ -17,7 +17,7 @@ pub fn spawn_decoration(mut commands: Commands, sprite_sheet: Res<SpriteSheet>) 
             texture: sprite_sheet.texture.clone().unwrap(),
             atlas: TextureAtlas {
                 layout: sprite_sheet.layout.clone().unwrap(),
-                index: thread_rng().gen_range(4..=5),
+                index: thread_rng().gen_range(16..=17),
             },
             transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
                 .with_translation(vec2(x, y).extend(Z_INDEX)),
