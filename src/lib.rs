@@ -12,4 +12,5 @@ pub mod resource;
 pub mod setup;
 pub mod state;
 pub mod stepping;
+pub mod utils;
 pub mod world;

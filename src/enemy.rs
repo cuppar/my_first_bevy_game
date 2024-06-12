@@ -1,7 +1,6 @@
-use bevy::math::vec2;
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
-use rand::{thread_rng, Rng};
+use rand::Rng;
 use std::time::Duration;
 
 use crate::animation::{AnimationIndices, AnimationTimer};
@@ -9,13 +8,15 @@ use crate::movement::Velocity;
 use crate::player::Player;
 use crate::prelude::*;
 use crate::state::GameState::InGame;
+use crate::utils::get_random_position_around;
 
 const Z_INDEX: f32 = 9.;
 const SPAWN_PERIOD: f32 = 1.0;
 const MAX_COUNT: usize = 100_000;
-const MAX_PER_FRAME_SPAWN_COUNT: usize = 100;
+const MAX_PER_FRAME_SPAWN_COUNT: usize = 3000;
 const SPEED: f32 = 100.;
 const INIT_HEALTH: f32 = 100.;
+const DISTANCE_FROM_PLAYER: f32 = 500.;
 
 pub struct EnemyPlugin;
 
@@ -77,17 +78,26 @@ fn spawn_enemy(
     mut commands: Commands,
     sprite_sheet: Res<SpriteSheet>,
     q_enemy: Query<(), With<Enemy>>,
+    q_player: Query<&Transform, (With<Player>, Without<Enemy>)>,
 ) {
     let enemy_count = q_enemy.iter().len();
     if enemy_count >= MAX_COUNT {
         return;
     }
 
+    if q_player.is_empty() {
+        return;
+    }
+
     let spawn_count = (MAX_COUNT - enemy_count).min(MAX_PER_FRAME_SPAWN_COUNT);
+    let player_pos = q_player.single().translation.xy();
 
     for _ in 0..spawn_count {
-        let x = thread_rng().gen_range((-WORLD_WIDTH / 2.)..(WORLD_WIDTH / 2.));
-        let y = thread_rng().gen_range((-WORLD_HEIGHT / 2.)..(WORLD_HEIGHT / 2.));
+        let mut rng = rand::thread_rng();
+        let position = get_random_position_around(
+            player_pos,
+            rng.gen_range(DISTANCE_FROM_PLAYER..WORLD_WIDTH.max(WORLD_HEIGHT) / 2.0),
+        );
         commands.spawn((
             SpriteSheetBundle {
                 texture: sprite_sheet.texture.clone().unwrap(),
@@ -96,7 +106,7 @@ fn spawn_enemy(
                     index: 4,
                 },
                 transform: Transform::from_scale(Vec3::splat(SPRITE_SCALE_FACTOR))
-                    .with_translation(vec2(x, y).extend(Z_INDEX)),
+                    .with_translation(position.extend(Z_INDEX)),
                 ..default()
             },
             Velocity::default(),

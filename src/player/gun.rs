@@ -13,7 +13,7 @@ pub mod bullet;
 const Z_INDEX: f32 = 20.;
 const ROTATION_RADIANS: f32 = 50.;
 const ORIGIN_OFFSET_TO_PLAYER: Vec2 = vec2(0., -35.);
-const BULLET_RELOAD_TIME: f32 = 0.07;
+const BULLET_RELOAD_TIME: f32 = 0.1;
 
 pub struct GunPlugin;
 
