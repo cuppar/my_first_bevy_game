@@ -1,3 +1,4 @@
+#![allow(clippy::type_complexity)]
 use bevy::prelude::*;
 use bevy::time::common_conditions::on_timer;
 use rand::Rng;
