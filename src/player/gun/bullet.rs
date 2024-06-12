@@ -9,6 +9,7 @@ use crate::state::GameState::InGame;
 const Z_INDEX: f32 = 11.;
 const OFFSET: f32 = 30.;
 const SPEED: f32 = 300.;
+pub(crate) const DAMAGE: f32 = 100.;
 
 pub struct BulletPlugin;
 
@@ -20,7 +21,7 @@ impl Plugin for BulletPlugin {
 #[derive(Component)]
 pub struct Bullet;
 
-pub fn handle_bullet_input(
+fn handle_bullet_input(
     mut commands: Commands,
     time: Res<Time>,
     sprite_sheet: Res<SpriteSheet>,

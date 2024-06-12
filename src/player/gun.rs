@@ -8,7 +8,7 @@ use crate::prelude::*;
 use crate::resource::CursorPosition;
 use crate::state::GameState::InGame;
 
-mod bullet;
+pub mod bullet;
 
 const Z_INDEX: f32 = 20.;
 const ROTATION_RADIANS: f32 = 50.;

@@ -15,6 +15,7 @@ const SPAWN_PERIOD: f32 = 1.0;
 const MAX_COUNT: usize = 100_000;
 const MAX_PER_FRAME_SPAWN_COUNT: usize = 100;
 const SPEED: f32 = 100.;
+const INIT_HEALTH: f32 = 100.;
 
 pub struct EnemyPlugin;
 
@@ -26,6 +27,7 @@ impl Plugin for EnemyPlugin {
                 spawn_enemy.run_if(on_timer(Duration::from_secs_f32(SPAWN_PERIOD))),
                 follow_player,
                 flip_enemy,
+                despawn_dead_enemy,
             )
                 .run_if(in_state(InGame)),
         );
@@ -33,7 +35,29 @@ impl Plugin for EnemyPlugin {
 }
 
 #[derive(Component)]
-pub struct Enemy;
+pub struct Enemy {
+    pub(crate) health: f32,
+}
+
+impl Default for Enemy {
+    fn default() -> Self {
+        Self {
+            health: INIT_HEALTH,
+        }
+    }
+}
+
+fn despawn_dead_enemy(mut commands: Commands, q_enemy: Query<(Entity, &Enemy), With<Enemy>>) {
+    if q_enemy.is_empty() {
+        return;
+    }
+
+    for (entity, enemy) in q_enemy.iter() {
+        if enemy.health <= 0. {
+            commands.entity(entity).despawn();
+        }
+    }
+}
 
 fn follow_player(
     q_player: Query<&Transform, With<Player>>,
@@ -78,7 +102,7 @@ fn spawn_enemy(
             Velocity::default(),
             AnimationIndices::new(4, 7),
             AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)),
-            Enemy,
+            Enemy::default(),
         ));
     }
 }

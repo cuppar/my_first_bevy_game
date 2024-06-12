@@ -3,6 +3,7 @@ pub mod prelude;
 
 pub mod animation;
 pub mod camera;
+pub mod collision;
 pub mod config;
 pub mod enemy;
 pub mod movement;
