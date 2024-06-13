@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::state::GameState::{GameInit, InGame, Loading};
-use crate::{player, resource, world};
+use crate::{gui, player, resource, world};
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 pub enum GameState {
@@ -27,6 +27,7 @@ impl Plugin for GameStatePlugin {
                     player::spawn_player,
                     player::gun::spawn_gun,
                     world::spawn_decoration,
+                    gui::spawn_text,
                     transition_to_next_state,
                 )
                     .chain(),
